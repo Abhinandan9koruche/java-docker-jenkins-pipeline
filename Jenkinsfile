@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-creds')
-        DOCKER_IMAGE = "yourdockerhubusername/java-app"
+        DOCKER_IMAGE = "abhinandan9/ise3"
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/yourusername/java-docker-jenkins-pipeline.git'
+                git 'https://github.com/Abhinandan9koruche/java-docker-jenkins-pipeline.git'
             }
         }
 
