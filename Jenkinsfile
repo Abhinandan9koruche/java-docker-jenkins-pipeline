@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "atharvk77/java-docker-jenkins-pipeline"   // ✅ Docker Hub repo name
+        DOCKER_IMAGE = "abhinandan9/ise3"   // ✅ Docker Hub repo name
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // ✅ Checkout from main branch
-                git branch: 'main', url: 'https://github.com/AtharvKemkar7/java-docker-jenkins-pipeline.git'
+                git branch: 'main', url: 'https://github.com/Abhinandan9koruche/java-docker-jenkins-pipeline.git'
             }
         }
 
