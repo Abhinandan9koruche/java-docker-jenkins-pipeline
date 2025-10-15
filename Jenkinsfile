@@ -2,21 +2,22 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-creds')
-        DOCKER_IMAGE = "abhinandan9/ise3"
+        DOCKER_IMAGE = "atharvk77/java-docker-jenkins-pipeline"   // ✅ Docker Hub repo name
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/Abhinandan9koruche/java-docker-jenkins-pipeline.git'
+                // ✅ Checkout from main branch
+                git branch: 'main', url: 'https://github.com/AtharvKemkar7/java-docker-jenkins-pipeline.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_IMAGE:latest .'
+                    // ✅ Windows Jenkins agent command
+                    bat 'docker build -t %DOCKER_IMAGE%:latest .'
                 }
             }
         }
@@ -24,10 +25,13 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    sh """
-                        echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin
-                        docker push $DOCKER_IMAGE:latest
-                    """
+                    // ✅ Safely use Jenkins credentials here
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        bat """
+                            echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                            docker push %DOCKER_IMAGE%:latest
+                        """
+                    }
                 }
             }
         }
